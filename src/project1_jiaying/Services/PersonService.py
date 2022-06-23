@@ -5,13 +5,8 @@ class PersonService:
             self.dbconnection=dbconnection
             self.post="insert into person (ID, user_login,user_password, first_name,last_name) values (%s,%s,%s,%s,%s)"
             self.get = "select * from person where "
-            self.put = ""
+            self.put = "update person set user_login = %s,user_password=%s,first_name=%s,last_name=%s where ID="
             self.delete = "delete from person where ID="
-    # post ="insert into person (ID, user_login,user_password, first_name,last_name) values (%s,%s,%s,%s,%s)"
-    # get = "select * from person where user_login='"
-    # put = ""
-    # delete = "delete from person where ID="
-    # val= (0,person1.username,person1.pwd,person1.firstName,person1.lastName)
     
     def getPersonByID(self,id):
         self.dbCursor.execute(self.get+"ID="+str(id))
@@ -56,5 +51,14 @@ class PersonService:
             print("Invalid username or password")
             return user 
     
-    def updatePerson(self):
-        print("updated profile")
+    def updatePerson(self,person):
+        self.dbCursor.execute(self.put+str(person.id),(person.username,person.pwd,person.firstName,person.lastName))
+        self.dbconnection.commit()
+        user=self.getPersonByID(person.id)
+        if user!=None:
+            print("Update sucess")
+            print(str(user)+" password: "+user.pwd)
+            return user
+        else:
+            print("An error occured please try again")
+            return self.getPersonByID(person.id)

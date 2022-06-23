@@ -29,10 +29,10 @@ while exit != "exit":
         input1=input("Do you need to login or are you a new user? ").lower().strip()
         exit="exit" if "exit" in input1 else "-"
     if "new" in input1:
-        username=input("Please enter a user name")
-        password=input("Please enter a password")
-        firstname=input("What is your first name")
-        lastname=input("What is your last name")
+        username=input("Please enter a user name ")
+        password=input("Please enter a password ")
+        firstname=input("What is your first name ")
+        lastname=input("What is your last name ")
         loginOn=personService.createPerson(Person(username,password,0,firstname,lastname))
     if "login" in input1:
         while (loginOn == "Invalid username or password" or loginOn ==None) and exit.find("exit")==-1:
@@ -44,7 +44,18 @@ while exit != "exit":
                 continue
             loginOn=personService.auth(username,password)
     if loginOn != "Invalid username or password" and loginOn !=None and exit.find("exit")==-1:
-        action=input("What would you like to do today? Retrieve passwords, saved urls, or delete account? ").lower().strip()
+        action=input("What would you like to do today? Password manager, url manager,  update account, or, delete account? ").lower().strip()
+        if "update" in action and exit.find("exit")==-1:
+            print("If you would like not to update something please put no")
+            update=input("What is the new first name. ")
+            loginOn.firstName=loginOn.firstName if "no" in update else update
+            update=input("What is the new last name. ")
+            loginOn.lastName=loginOn.lastName if "no" in update else update
+            update=input("What is the new username. ")
+            loginOn.username=loginOn.username if "no" in update else update
+            update=input("What is the new password. ")
+            loginOn.pwd=loginOn.pwd if "no" in update else update
+            loginOn=personService.updatePerson(loginOn)
         if "delete" in action and exit.find("exit")==-1:
             personService.deletePerson(loginOn)
             loginOn=None
