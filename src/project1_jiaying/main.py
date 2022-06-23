@@ -43,7 +43,7 @@ while exit != "exit":
                 continue
             loginOn=personService.auth(username,password)
     if loginOn != "Invalid username or password" and loginOn !=None and exit.find("exit")==-1:
-        action=input("What would you like to do today? Password manager, url manager,  update account, or, delete account? ").lower().strip()
+        action=input("What would you like to do today? Password Manager, url Manager,  update account, or, delete account? ").lower().strip()
         if "update" in action and exit.find("exit")==-1:
             print("If you would like not to update something please put no")
             update=input("What is the new first name. ")
@@ -56,19 +56,29 @@ while exit != "exit":
             loginOn.pwd=loginOn.pwd if "no" in update else update
             loginOn=personService.updatePerson(loginOn)
         if "url" in action and exit.find("exit")==-1:
-            urls=personService.getURLs(loginOn)
-            if urls!=None:
-                for i in urls:
-                    print(i)
-            else:
-                print("no passwords stored")
+            action=input("Do you want to add a URL or view all URLs")
+            if "view" in action:
+                urls=personService.getURLs(loginOn)
+                if urls!=None:
+                    for i in urls:
+                        print(i)
+                else:
+                        print("no URLs stored")
+            if "add" in action:
+                url=URLManager(input("Please enter a description"),input("Please enter the URL"),loginOn.id)        
+                personService.addURL(url)
         if "password" in action and exit.find("exit")==-1:
-            pws=personService.getPasswords(loginOn)
-            if pws!=None:
-                for i in pws:
-                    print(i)
-            else:
-                print("no passwords stored")
+            action=input("Do you want to add a password or view all passwords")
+            if "view" in action:
+                pws=personService.getPasswords(loginOn)
+                if pws!=None:
+                    for i in pws:
+                        print(i)
+                else:
+                    print("no passwords stored")
+            if "add" in action:
+                pw=PWManager(input("Please enter a password"),input("Please enter a description"),input("Please enter the URL"),input("Please enter the account"),loginOn.id)
+                personService.addPW(pw)        
         if "delete" in action and exit.find("exit")==-1:
             personService.deletePerson(loginOn)
             loginOn=None

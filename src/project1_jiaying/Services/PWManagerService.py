@@ -4,7 +4,7 @@ class PWManagerService:
             self.dbCursor=dbconnection.cursor()
             self.dbconnection=dbconnection
             self.get = "select * from PWmanager where personID="
-            # self.post="insert into urlmanager (ID, url,descprtion) values (%s,%s,%s)"
+            self.post="insert into pwmanager (personID,passwrd,accnt,descprtion,URL) values (%s,%s,%s,%s,%s)"
             # self.put = "update person set user_login = %s,user_password=%s,first_name=%s,last_name=%s where ID="
             # self.delete = "delete from person where ID="
     
@@ -18,3 +18,8 @@ class PWManagerService:
             return pws
         else:
             return pw
+            
+    def createPW(self,pw):
+        self.dbCursor.execute(self.post,(str(pw.personID),pw.pwd,pw.accnt,pw.description,pw.URL))
+        self.dbconnection.commit()
+        print("Password has been saved")

@@ -41,6 +41,11 @@ class PersonService:
             print("An error occured please try again")
             return user
     
+    def addURL(self,url):
+        self.urlManagerService.createUrl(url)
+    def addPW(self,pw):
+        self.pwManagerService.createPW(pw)
+    
     def deletePerson(self,person):
         self.dbCursor.execute(self.delete+str(person.id))
         self.dbconnection.commit()

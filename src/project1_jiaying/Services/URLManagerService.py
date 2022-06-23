@@ -4,7 +4,7 @@ class URLManagerService:
             self.dbCursor=dbconnection.cursor()
             self.dbconnection=dbconnection
             self.get = "select * from urlmanager where personID="
-            # self.post="insert into urlmanager (ID, url,descprtion) values (%s,%s,%s)"
+            self.post="insert into urlmanager (personID,url,descprtion) values (%s,%s,%s)"
             # self.put = "update person set user_login = %s,user_password=%s,first_name=%s,last_name=%s where ID="
             # self.delete = "delete from person where ID="
     
@@ -17,4 +17,9 @@ class URLManagerService:
                 urls.append(URLManager(i[3],i[2],i[1],i[0]))
             return urls
         else:
-            return url 
+            return url
+    
+    def createUrl(self,url):
+        self.dbCursor.execute(self.post,(str(url.personID),url.URL,url.description))
+        self.dbconnection.commit()
+        print("URL has been saved")
