@@ -1,10 +1,8 @@
 from Utils.Secret import Secret
 from Beans.Person import Person
-from Beans.PersonData import PersonData
 from Beans.PWManager import PWManager
 from Beans.URLManager import URLManager
 from Services.PersonService import PersonService
-from Services.URLManagerService import URLManagerService
 import mysql.connector
 
 secret=Secret()
@@ -17,7 +15,6 @@ dbconnection = mysql.connector.connect(
     password=pw,
     database=db
 )
-urlManagerService=URLManagerService(dbconnection)
 personService=PersonService(dbconnection)
 
 exit="-"
@@ -58,6 +55,20 @@ while exit != "exit":
             update=input("What is the new password. ")
             loginOn.pwd=loginOn.pwd if "no" in update else update
             loginOn=personService.updatePerson(loginOn)
+        if "url" in action and exit.find("exit")==-1:
+            urls=personService.getURLs(loginOn)
+            if urls!=None:
+                for i in urls:
+                    print(i)
+            else:
+                print("no passwords stored")
+        if "password" in action and exit.find("exit")==-1:
+            pws=personService.getPasswords(loginOn)
+            if pws!=None:
+                for i in pws:
+                    print(i)
+            else:
+                print("no passwords stored")
         if "delete" in action and exit.find("exit")==-1:
             personService.deletePerson(loginOn)
             loginOn=None

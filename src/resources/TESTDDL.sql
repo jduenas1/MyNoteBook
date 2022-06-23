@@ -17,30 +17,36 @@ primary key (ID)
  
 CREATE TABLE IF NOT EXISTS PWManager(
 ID int auto_increment,
+personID int,
 passwrd varchar(255),
 accnt varchar(255) ,
 descprtion varchar(255),
 URL varchar(255),
+CONSTRAINT fkPWM FOREIGN KEY (personID)
+references person(ID),
 primary key (ID)
 );
 
 CREATE TABLE IF NOT EXISTS URLMANAGER(
 ID int auto_increment,
+personID int,
 url varchar(255),
 descprtion varchar (255),
+CONSTRAINT fkURLM FOREIGN KEY (personID)
+references person(ID),
 primary key (ID)
 );
 
-CREATE TABLE IF NOT EXISTS PersonData(
-ID int auto_increment,
-PersonID int,
-PWManagerID int,
-URLManagerID int,
-CONSTRAINT fkPerson FOREIGN KEY (PersonID)
-references Person(ID),
-CONSTRAINT fkPWManager FOREIGN KEY (PWManagerID)
-references PWManager(ID),
-CONSTRAINT fkURLManager FOREIGN KEY (URLManagerID)
-references URLManager(ID),
-primary key (ID)
-);
+-- CREATE TABLE IF NOT EXISTS PersonData(
+-- ID int auto_increment,
+-- PersonID int,
+-- PWManagerID int,
+-- URLManagerID int,
+-- CONSTRAINT fkPerson FOREIGN KEY (PersonID)
+-- references Person(ID),
+-- CONSTRAINT fkPWManager FOREIGN KEY (PWManagerID)
+-- references PWManager(ID),
+-- CONSTRAINT fkURLManager FOREIGN KEY (URLManagerID)
+-- references URLManager(ID),
+-- primary key (ID)
+-- );

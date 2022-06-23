@@ -1,6 +1,10 @@
 from Beans.Person import Person
+from Services.PWManagerService import PWManagerService
+from Services.URLManagerService import URLManagerService
 class PersonService:
     def __init__(self,dbconnection):
+            self.pwManagerService=PWManagerService(dbconnection)
+            self.urlManagerService=URLManagerService(dbconnection)
             self.dbCursor=dbconnection.cursor()
             self.dbconnection=dbconnection
             self.post="insert into person (ID, user_login,user_password, first_name,last_name) values (%s,%s,%s,%s,%s)"
@@ -62,3 +66,8 @@ class PersonService:
         else:
             print("An error occured please try again")
             return self.getPersonByID(person.id)
+    def getPasswords(self,person):
+        return self.pwManagerService.getPWsByPersonID(person.id)
+
+    def getURLs(self,person):
+        return self.urlManagerService.getURLsByPersonID(person.id)
