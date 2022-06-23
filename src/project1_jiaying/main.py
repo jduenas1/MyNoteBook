@@ -4,6 +4,7 @@ from Beans.PersonData import PersonData
 from Beans.PWManager import PWManager
 from Beans.URLManager import URLManager
 from Services.PersonService import PersonService
+from Services.URLManagerService import URLManagerService
 import mysql.connector
 
 secret=Secret()
@@ -16,6 +17,7 @@ dbconnection = mysql.connector.connect(
     password=pw,
     database=db
 )
+urlManagerService=URLManagerService(dbconnection)
 personService=PersonService(dbconnection)
 
 exit="-"
