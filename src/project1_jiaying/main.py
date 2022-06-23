@@ -6,7 +6,6 @@ from Beans.URLManager import URLManager
 from Services.PersonService import PersonService
 import mysql.connector
 
-personService=PersonService()
 secret=Secret()
 pw=secret.getPassword()
 db=secret.getDataBase()
@@ -17,26 +16,38 @@ dbconnection = mysql.connector.connect(
     password=pw,
     database=db
 )
+personService=PersonService(dbconnection)
 
-dbCursor=dbconnection.cursor()
-exit=None
+exit="-"
 # person1= Person("pikapika",123456789,0,"pika","chu")
 loginOn=None
 # val= (0,person1.username,person1.pwd,person1.firstName,person1.lastName)
 # personService.createPerson(val,dbCursor,dbconnection)
 
 while exit != "exit":
-    if loginOn == "Invalid username or password" or loginOn ==None:
-        input1=input("Do you need to login or are you a new user")
-    if "exit" in input1.lower():
-        exit="exit"
-    if "login" in input1.lower():
-        while (loginOn == "Invalid username or password" or loginOn ==None) and exit != "exit":
-            username=input("What is your user name?").strip().lower()
-            password=input("What is your password?").strip()
+    if (loginOn == "Invalid username or password" or loginOn ==None) and exit.find("exit")==-1:
+        input1=input("Do you need to login or are you a new user? ").lower().strip()
+        exit="exit" if "exit" in input1 else "-"
+    if "new" in input1:
+        username=input("Please enter a user name")
+        password=input("Please enter a password")
+        firstname=input("What is your first name")
+        lastname=input("What is your last name")
+        loginOn=personService.createPerson(Person(username,password,0,firstname,lastname))
+    if "login" in input1:
+        while (loginOn == "Invalid username or password" or loginOn ==None) and exit.find("exit")==-1:
+            username=input("What is your user name? ").strip().lower()
+            exit=username
+            password=input("What is your password? ").strip()
+            exit="exit" if "exit" in username+password.lower() else "-"
+            if exit =="exit":
+                continue
             loginOn=personService.auth(username,password)
-            print(loginOn)
-    if loginOn != "Invalid username or password" and loginOn !=None and exit != "exit":
-        action=input("What would you like to do today? Retrieve passwords or saved urls?")       
+    if loginOn != "Invalid username or password" and loginOn !=None and exit.find("exit")==-1:
+        action=input("What would you like to do today? Retrieve passwords, saved urls, or delete account? ").lower().strip()
+        if "delete" in action and exit.find("exit")==-1:
+            personService.deletePerson(loginOn)
+            loginOn=None
+        exit="exit" if "exit" in action else "-"
 
 
