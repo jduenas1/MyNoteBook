@@ -58,7 +58,7 @@ class PersonService:
             return user
         else:
             print("Invalid username or password")
-            return user 
+            return None 
     
     def updatePerson(self,person):
         self.dbCursor.execute(self.put+str(person.id),(person.username,person.pwd,person.firstName,person.lastName))

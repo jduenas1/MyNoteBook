@@ -25,9 +25,9 @@ loginOn=None
 
 while exit != "exit":
     if (loginOn == "Invalid username or password" or loginOn ==None) and exit.find("exit")==-1:
-        input1=input("Do you need to login or are you a new user? ").lower().strip()
+        input1=input("Do you want to login or register an account? (login/register)").lower().strip()
         exit="exit" if "exit" in input1 else "-"
-    if "new" in input1:
+    if "register" in input1:
         username=input("Please enter a user name ")
         password=input("Please enter a password ")
         firstname=input("What is your first name ")
