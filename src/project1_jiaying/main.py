@@ -33,6 +33,7 @@ while exit != "exit":
         firstname=input("What is your first name ")
         lastname=input("What is your last name ")
         loginOn=personService.createPerson(Person(username,password,0,firstname,lastname))
+        input1="loggedon"
     if "login" in input1:
         while (loginOn == "Invalid username or password" or loginOn ==None) and exit.find("exit")==-1:
             username=input("What is your user name? ").strip().lower()
@@ -42,6 +43,7 @@ while exit != "exit":
             if exit =="exit":
                 continue
             loginOn=personService.auth(username,password)
+            input1="loggedon"
     if loginOn != "Invalid username or password" and loginOn !=None and exit.find("exit")==-1:
         action=input("What would you like to do today? Password Manager, url Manager,  update account, or, delete account? ").lower().strip()
         if "update" in action and exit.find("exit")==-1:
