@@ -28,7 +28,7 @@ class PersonService:
             user=Person(user[1],user[2],user[0],user[3],user[4])
             return user
         else:
-            return user    
+            return None    
 
     def createPerson(self,person):
         self.dbCursor.execute(self.post,(str(person.id),person.username,person.pwd,person.firstName,person.lastName))
