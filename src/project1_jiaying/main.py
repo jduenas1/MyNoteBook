@@ -18,10 +18,8 @@ dbconnection = mysql.connector.connect(
 personService=PersonService(dbconnection)
 
 exit="-"
-# person1= Person("pikapika",123456789,0,"pika","chu")
 loginOn=None
-# val= (0,person1.username,person1.pwd,person1.firstName,person1.lastName)
-# personService.createPerson(val,dbCursor,dbconnection)
+
 
 while exit != "exit":
     if (loginOn == "Invalid username or password" or loginOn ==None) and exit.find("exit")==-1:
